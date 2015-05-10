@@ -673,7 +673,7 @@ public class RequestCreator {
     }
 
     if (setPlaceholder) {
-      setPlaceholder(target, getPlaceholderDrawable());
+      setPlaceholder(target, getPlaceholderDrawable(request.targetWidth, request.targetHeight));
     }
 
     Action action =
@@ -689,6 +689,14 @@ public class RequestCreator {
     } else {
       return placeholderDrawable; // This may be null which is expected and desired behavior.
     }
+  }
+
+  private Drawable getPlaceholderDrawable(int targetWidth, int targetHeight) {
+    Drawable drawable = getPlaceholderDrawable();
+    if (drawable != null && targetWidth != 0 && targetHeight != 0) {
+      return new PlaceholderDrawable(drawable, targetWidth, targetHeight);
+    }
+    return drawable;
   }
 
   /** Create the request optionally passing it through the request transformer. */
